@@ -85,7 +85,7 @@
 <p><a href="https://pic1.imgdb.cn/item/684f603558cb8da5c84dc697.jpg"><img src="https://pic1.imgdb.cn/item/684f603558cb8da5c84dc697.jpg" alt="v2-578f1c81c4c624ebde76f0a5e9421b80_r.jpg"></a></p>
 <h3 id="清除缓存"><a href="#清除缓存" class="headerlink" title="清除缓存"></a>清除缓存</h3><p>使用命令 <code>hexo clean</code> 可以清除缓存，清除缓存可以让新配置的信息立即生效。</p>
 <p>然后执行命令：<code>hexo generate</code> 自动根据当前目录下文件,生成静态网页；</p>
-<p><img src="http://tuchuang.jpsoswer.xyz/photo/photoDemo1/v2-c885f0f371c99ff7158fe49eb561d2f8_r.jpg" alt="photo19"></p>
+<p><a href="https://pic1.imgdb.cn/item/684f774058cb8da5c84e1e58.jpg"><img src="https://pic1.imgdb.cn/item/684f774058cb8da5c84e1e58.jpg" alt="v2-c885f0f371c99ff7158fe49eb561d2f8_r.jpg"></a></p>
 <p>然后执行命令：<code>hexo server</code> 部署到本地服务器预览；注：Ctrl+C 可结束运行。</p>
 <p><a href="https://pic1.imgdb.cn/item/684f5efe58cb8da5c84dc4ff.png"><img src="https://pic1.imgdb.cn/item/684f5efe58cb8da5c84dc4ff.png" alt="v2-5f43dbb89ca96304562dba42b003cb17_r.png"></a></p>
 <p>这时在浏览器输入： <a href="https://link.zhihu.com/?target=http://localhost:4000/">http://localhost:4000/</a> 就可以看到如下效果：</p>
