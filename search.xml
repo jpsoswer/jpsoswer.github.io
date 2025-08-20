@@ -21,6 +21,362 @@
 ]]></content>
   </entry>
   <entry>
+    <title>数据库基础知识</title>
+    <url>/2025/08/20/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</url>
+    <content><![CDATA[<h2 id="数据库概述"><a href="#数据库概述" class="headerlink" title="数据库概述"></a>数据库概述</h2><h3 id="什么是数据库？"><a href="#什么是数据库？" class="headerlink" title="什么是数据库？"></a>什么是数据库？</h3><p>数据库：DataBase(DB)，是存储和管理数据的仓库。</p>
+<p>数据库管理系统：DataBase Management System(DBMS)，操纵和管理数据库的大型软件。</p>
+<p>SQL：Structured Query Language，操作关系型数据库的编程语言，定义了一套操作关系型数据库统一标准。</p>
+<span id="more"></span>
+
+<h3 id="数据库产品"><a href="#数据库产品" class="headerlink" title="数据库产品"></a>数据库产品</h3><table>
+<thead>
+<tr>
+<th>产品名</th>
+<th>简介</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Oracle</td>
+<td>收费的大型数据库，Oracle公司的产品。</td>
+</tr>
+<tr>
+<td>MySQL</td>
+<td>开源免费的中小型数据库。Sun公司收购了MySQL，Oracle收购Sun公司。</td>
+</tr>
+<tr>
+<td>SQL Server</td>
+<td>MicroSoft公司收费的中型的数据库。C#、.net等语言常使用。</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>开源免费中小型的数据库。</td>
+</tr>
+<tr>
+<td>DB2</td>
+<td>IBM公司的大型收费数据库产品。</td>
+</tr>
+<tr>
+<td>SQLite</td>
+<td>嵌入式的微型数据库。如：作为Android内置数据库</td>
+</tr>
+<tr>
+<td>MariaDB</td>
+<td>开源免费的中小型的数据库。</td>
+</tr>
+</tbody></table>
+<h2 id="MySQL概述"><a href="#MySQL概述" class="headerlink" title="MySQL概述"></a>MySQL概述</h2><h3 id="MySQL安装"><a href="#MySQL安装" class="headerlink" title="MySQL安装"></a>MySQL安装</h3><p>下载安装包地址</p>
+<p><a href="https://dev.mysql.com/downloads/mysql/">https://dev.mysql.com/downloads/mysql/</a></p>
+<p>去安装这一个 “<strong>Windows (x86, 64-bit), ZIP Archive</strong>”</p>
+<p><img src="https://pic1.imgdb.cn/item/68a59a6c58cb8da5c83de80b.png" alt="201"></p>
+<h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><p>下载完成后我们得到的是一个压缩包，将其解压，我们就可以得到MySQL 8.0.34 的软件本体了(就是一个文件夹)，我们可以把它放在你想安装的位置 。</p>
+<p><img src="https://pic1.imgdb.cn/item/68a59ac358cb8da5c83dedd6.png" alt="202"></p>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p><strong>添加环境变量</strong></p>
+<p>环境变量里面有很多选项，这里我们只用到<code>Path</code>这个参数。为什么在初始化的开始要添加环境变量呢？</p>
+<p>在黑框(即CMD)中输入一个可执行程序的名字，Windows会先在环境变量中的<code>Path</code>所指的路径中寻找一遍，如果找到了就直接执行，没找到就在当前工作目录找，如果还没找到，就报错。我们添加环境变量的目的就是能够在任意一个黑框直接调用MySQL中的相关程序而不用总是修改工作目录，大大简化了操作。</p>
+<p><strong>添加步骤</strong></p>
+<p>右键**<code>此电脑</code><strong>→</strong><code>属性</code>**，点击<code>高级系统设置</code></p>
+<p>点击<code>环境变量</code></p>
+<p>在**<code>系统变量</code>**中新建<code>MYSQL_HOME</code></p>
+<p>输入MySQL的安装地址</p>
+<p>在<code>系统变量</code>中找到并<strong>双击</strong><code>Path</code></p>
+<p>点击<code>新建</code></p>
+<p>输入**%MYSQL_HOME%\bin**</p>
+<p>最后点击确定。</p>
+<p><strong>如何验证是否添加成功？</strong></p>
+<p>右键开始菜单(就是屏幕左下角)，选择**<code>命令提示符(管理员)</code><strong>，打开黑框，敲入</strong><code>mysql</code>**，回车。</p>
+<p>如果提示<code>Can&#39;t connect to MySQL server on &#39;``localhost``&#39;</code>则证明添加成功；</p>
+<p>如果提示<code>mysql不是内部或外部命令，也不是可运行的程序或批处理文件</code>则表示添加添加失败，请重新检查步骤并重试。</p>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p><strong>以管理员身份运行命令窗口</strong></p>
+<p><img src="https://pic1.imgdb.cn/item/68a59af958cb8da5c83df24b.png" alt="203"></p>
+<p>在命令行中输入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysqld --initialize-insecure</span><br></pre></td></tr></table></figure>
+
+<p>稍微等待一会，如果出现没有出现报错信息，则证明data目录初始化没有问题，此时再查看MySQL目录下已经有data目录生成。</p>
+<p>如果出现如下问题</p>
+<p><img src="https://pic1.imgdb.cn/item/68a59b2058cb8da5c83df4c2.png" alt="204"></p>
+<p>是由于权限不足导致的，以管理员方式运行 cmd</p>
+<ol>
+<li><h3 id="注册MySQL服务"><a href="#注册MySQL服务" class="headerlink" title="注册MySQL服务"></a>注册MySQL服务</h3></li>
+</ol>
+<p>命令行（注意必须以管理员身份启动）中，输入如下的指令，回车执行： </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqld <span class="operator">-</span>install</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pic1.imgdb.cn/item/68a59be358cb8da5c83dff92.png" alt="205"></p>
+<p>现在你的计算机上已经安装好了MySQL服务了。</p>
+<ol>
+<li><h3 id="启动MySQL服务"><a href="#启动MySQL服务" class="headerlink" title="启动MySQL服务"></a>启动MySQL服务</h3></li>
+</ol>
+<p>在黑框里敲入<code>net start mysql</code>，回车。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">net <span class="keyword">start</span> mysql  <span class="operator">/</span><span class="operator">/</span> 启动mysql服务</span><br><span class="line">    </span><br><span class="line">net stop mysql  <span class="operator">/</span><span class="operator">/</span> 停止mysql服务</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pic1.imgdb.cn/item/68a59c1558cb8da5c83e0289.png" alt="206"></p>
+<ol>
+<li><h3 id="修改默认账户密码"><a href="#修改默认账户密码" class="headerlink" title="修改默认账户密码"></a>修改默认账户密码</h3></li>
+</ol>
+<p>在黑框里敲入<code>mysqladmin -u root password 1234</code>，这里的<code>1234</code>就是指默认管理员(即root账户)的密码，可以自行修改成你喜欢的。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqladmin <span class="operator">-</span>u root password <span class="number">1234</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pic1.imgdb.cn/item/68a59c2c58cb8da5c83e03de.png" alt="207"></p>
+<ol>
+<li><h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2></li>
+</ol>
+<p>右键开始菜单，选择<code>命令提示符</code>，打开黑框。</p>
+<p>在黑框中输入，<code>mysql -uroot -p1234</code>，回车，出现下图且左下角为<code>mysql&gt;</code>，则登录成功。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql <span class="operator">-</span>uroot <span class="operator">-</span>p1234</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pic1.imgdb.cn/item/68a59c4958cb8da5c83e0585.png" alt="207"></p>
+<p><strong>到这里你就可以开始你的MySQL之旅了！</strong></p>
+<p>退出mysql：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">exit</span><br></pre></td></tr></table></figure>
+
+<p>登录参数：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql <span class="operator">-</span>u用户名 <span class="operator">-</span>p密码 <span class="operator">-</span>h要连接的mysql服务器的ip地址(默认<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>) <span class="operator">-</span>P端口号(默认<span class="number">3306</span>)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2></li>
+</ol>
+<p>如果你想卸载MySQL，也很简单。</p>
+<p>点击开始菜单，输入cmd，选择 “命令提示符”，选择右侧的 “以管理员身份运行”。</p>
+<p><img src="https://pic1.imgdb.cn/item/68a59c6858cb8da5c83e06e4.png" alt="208"></p>
+<ol>
+<li>敲入<code>net stop mysql</code>，回车。</li>
+</ol>
+<p><img src="https://pic1.imgdb.cn/item/68a59c8658cb8da5c83e07e6.png" alt="209"></p>
+<ol>
+<li>再敲入<code>mysqld -remove mysql</code>，回车。</li>
+</ol>
+<p><img src="https://pic1.imgdb.cn/item/68a59ca158cb8da5c83e0a03.png" alt="210"></p>
+<ol>
+<li>最后删除MySQL目录及相关的环境变量。</li>
+</ol>
+<p><strong>至此，MySQL卸载完成！</strong></p>
+<h3 id="MySQL连接"><a href="#MySQL连接" class="headerlink" title="MySQL连接"></a>MySQL连接</h3><p>语法：mysql –u用户名 –p密码 [-h数据库服务器IP地址 -P端口号]</p>
+<h3 id="MySQL数据模型"><a href="#MySQL数据模型" class="headerlink" title="MySQL数据模型"></a>MySQL数据模型</h3><p>关系型数据库: 建立在关系模型基础上，由多张相互连接的二维表组成的数据库。</p>
+<p>特点：</p>
+<p>使用表存储数据，格式统一，便于维护。</p>
+<p>使用SQL语言操作，标准统一，使用方便，可用于复杂查询。</p>
+<p><img src="https://pic1.imgdb.cn/item/68a59cca58cb8da5c83e0cdb.png" alt="211"></p>
+<p><strong>小结</strong></p>
+<p>1.什么是关系型数据库?</p>
+<p>​    由多张二维表组成的数据库(RDBMS)</p>
+<p>2.数据是如何在数据库中存储的?</p>
+<p>   数据库 -&gt; 表 -&gt; 数据(记录)</p>
+<h2 id="SQL语句"><a href="#SQL语句" class="headerlink" title="SQL语句"></a>SQL语句</h2><p>SQL：一门操作关系型数据库的编程语言，定义操作所有关系型数据库的统一标准。</p>
+<p>分类：</p>
+<p><img src="https://pic1.imgdb.cn/item/68a59d0358cb8da5c83e111f.png" alt="212"></p>
+<h3 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h3><h4 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h4><p><strong>操作语法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 查询所有的数据库</span><br><span class="line">show databases;</span><br><span class="line">-- 查询当前使用的数据库</span><br><span class="line">select database();</span><br><span class="line">-- 创建数据库</span><br><span class="line">create database db03;</span><br><span class="line">-- 选择数据库</span><br><span class="line">use db01;</span><br><span class="line">-- 删除数据库</span><br><span class="line">drop database db03;</span><br></pre></td></tr></table></figure>
+
+<p><strong>小结：</strong></p>
+<p>1.同一个数据库服务器中，数据库的名字是否可以相同？</p>
+<p>​	•不可以</p>
+<p>2.MySQL8版本默认的字符集是什么?</p>
+<p>​	•utf8mb4</p>
+<p>​	•default charset utf8mb4</p>
+<h4 id="MySQL客户端工具"><a href="#MySQL客户端工具" class="headerlink" title="MySQL客户端工具"></a>MySQL客户端工具</h4><p><img src="https://pic1.imgdb.cn/item/68a59d2758cb8da5c83e13a9.png" alt="213"></p>
+<p>下载网址：<a href="https://www.jetbrains.com/zh-cn/datagrip/">https://www.jetbrains.com/zh-cn/datagrip/</a></p>
+<p>注意修改一下安装位置一键下载就可以！！！</p>
+<p><img src="https://pic1.imgdb.cn/item/68a59d5358cb8da5c83e15fb.png" alt="213"></p>
+<h4 id="表结构-创建"><a href="#表结构-创建" class="headerlink" title="表结构-创建"></a>表结构-创建</h4><h5 id="创建表的语法"><a href="#创建表的语法" class="headerlink" title="创建表的语法"></a>创建表的语法</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 创建表</span><br><span class="line">create table user(</span><br><span class="line">    id int comment &#x27;用户id，用户唯一标识&#x27;,</span><br><span class="line">    username varchar(50) comment &#x27;用户名&#x27;,</span><br><span class="line">    name varchar(10) comment &#x27;姓名&#x27;,</span><br><span class="line">    age int comment &#x27;年龄&#x27;,</span><br><span class="line">    gender char(1) comment &#x27;性别&#x27;</span><br><span class="line">) comment &#x27;用户信息表&#x27;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>示例如下图所示：</p>
+<p><img src="https://pic1.imgdb.cn/item/68a59eaf58cb8da5c83e2932.png" alt="214"></p>
+<p>约束：约束是作用于表中字段上的规则，用于限制存储在表中的数据。</p>
+<p>目的：保证数据库中数据的正确性、有效性和完整性。</p>
+<h5 id="为表添加约束"><a href="#为表添加约束" class="headerlink" title="为表添加约束"></a>为表添加约束</h5><p><img src="https://pic1.imgdb.cn/item/68a59ed658cb8da5c83e2b59.png" alt="215"></p>
+<p>语法示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 创建表(约束)</span><br><span class="line">create table user02(</span><br><span class="line">    id int primary key auto_increment comment &#x27;用户id，用户唯一标识&#x27;, -- 主键 主键自增</span><br><span class="line">    username varchar(50) not null unique comment &#x27;用户名&#x27;,   -- 非空 唯一</span><br><span class="line">    name varchar(10) not null comment &#x27;姓名&#x27;,   -- 非空</span><br><span class="line">    age int comment &#x27;年龄&#x27;,</span><br><span class="line">    gender char(1) default &#x27;男&#x27; comment &#x27;性别&#x27;        -- 默认为男</span><br><span class="line">) comment &#x27;用户信息表&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>小结:</strong></p>
+<ul>
+<li><p>MySQL数据库中分为哪几类约束，对应的关键字是什么？</p>
+<ul>
+<li>primary key</li>
+<li>not null</li>
+<li>unique</li>
+<li>default</li>
+<li>foreign  key</li>
+</ul>
+<p>	</p>
+</li>
+<li><p>如何实现主键自增的效果呢？</p>
+<ul>
+<li>定义主键的时候指定关键字 auto_increment</li>
+</ul>
+</li>
+<li><p>一个字段上是否可以添加多个约束 ？</p>
+<ul>
+<li>可以，多个约束之间使用空格分开</li>
+</ul>
+</li>
+</ul>
+<h4 id="表结构-数据类型"><a href="#表结构-数据类型" class="headerlink" title="表结构-数据类型"></a>表结构-数据类型</h4><p><strong>数据类型</strong></p>
+<p> MySQL中的数据类型有很多，主要分为三类：数值类型、字符串类型、日期时间类型。</p>
+<p>数值类型：</p>
+<p><img src="https://pic1.imgdb.cn/item/68a59f1558cb8da5c83e2ed2.png" alt="215"></p>
+<p>字符串类型：</p>
+<p><img src="https://pic1.imgdb.cn/item/68a5a29f58cb8da5c83e5afe.png" alt="223"></p>
+<p><img src="https://pic1.imgdb.cn/item/68a59f6e58cb8da5c83e33d0.png" alt="216"></p>
+<p>日期类型：</p>
+<p><img src="https://pic1.imgdb.cn/item/68a59f8358cb8da5c83e34fd.png" alt="217"></p>
+<p><strong>小结：</strong></p>
+<ul>
+<li><p>数值类型在定义的时候，后面加了unsigned关键字是什么意思？</p>
+<ul>
+<li>unsigned表示无符号类型，表示只能取0及正数</li>
+<li>不加默认是signed，表示可以取负数</li>
+</ul>
+</li>
+<li><p>char与varchar的区别是什么？什么时候用char，什么时候用varchar？</p>
+<ul>
+<li>char是定长字符串，varchar是变长字符串</li>
+<li>如果一个字段的长度是固定的，建议使用char；如：身份证号、手机号</li>
+<li>如果一个字段的长度不是固定的，建议使用varchar；如：用户名、姓名</li>
+</ul>
+</li>
+</ul>
+<h5 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h5><p><img src="https://pic1.imgdb.cn/item/68a59faa58cb8da5c83e372d.png" alt="218"></p>
+<p><img src="https://pic1.imgdb.cn/item/68a59fc358cb8da5c83e388f.png" alt="218"></p>
+<p>要求：</p>
+<p>1.阅读并分析页面原型及需求</p>
+<p>2.分析表中包含哪些字段，以及字段的类型、约束</p>
+<p>3.创建表结构（添加基础字段id、create_time、update_time）</p>
+<p><strong>示例代码</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 案例：设计员工表emp</span><br><span class="line">-- 基础字段：id主键 create_time创建表的时间 update_time最后修改时间</span><br><span class="line">create table emp(</span><br><span class="line">    id int unsigned not null unique primary key auto_increment comment &#x27;id号&#x27;,</span><br><span class="line">    username varchar(20) not null unique comment &#x27;用户名&#x27;,</span><br><span class="line">    password varchar(10) comment &#x27;密码&#x27;,</span><br><span class="line">    name varchar(10) not null comment &#x27;姓名&#x27;,</span><br><span class="line">    gender tinyint unsigned not null comment &#x27;性别 1表示男 2表示女&#x27;,</span><br><span class="line">    phone char(11) not null unique comment &#x27;手机号&#x27;,</span><br><span class="line">    job tinyint unsigned comment &#x27;职位 1班主任 2讲师 3学工主管 4教研主管 5咨询师&#x27;,</span><br><span class="line">    salary int unsigned comment &#x27;薪资&#x27;,</span><br><span class="line">    image varchar(50) comment &#x27;图片&#x27;,</span><br><span class="line">    entry_date date comment &#x27;入职日期&#x27;,</span><br><span class="line">    create_time datetime comment &#x27;创建表的时间&#x27;,</span><br><span class="line">    update_time datetime comment &#x27;最后操作时间&#x27;</span><br><span class="line">)comment &#x27;员工表&#x27;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="表结构-查询、修改、删除"><a href="#表结构-查询、修改、删除" class="headerlink" title="表结构-查询、修改、删除"></a>表结构-查询、修改、删除</h4><p>表结构的查询、修改、删除相关语法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 查看当前数据库有哪些表</span><br><span class="line">show tables;</span><br><span class="line">-- 查看表结构</span><br><span class="line">desc emp;</span><br><span class="line">-- 查询建表结构</span><br><span class="line">show create table emp;</span><br><span class="line">-- 字段：添加字段qq varchar(13)</span><br><span class="line">alter table emp add qq varchar(13) comment &#x27;QQ号码&#x27;;</span><br><span class="line">-- 字段：修改字段类型qq varchar(15)</span><br><span class="line">alter table emp modify qq varchar(15) comment &#x27;QQ号码&#x27;;</span><br><span class="line">-- 字段：修改字段名qq -&gt; qq_num varchar(15)</span><br><span class="line">alter table emp change qq qq_num varchar(15) comment &#x27;QQ号码&#x27;;</span><br><span class="line">-- 字段：删除字段qq_num</span><br><span class="line">alter table emp drop column qq_num;</span><br><span class="line">-- 修改表名</span><br><span class="line">alter table emp rename to empoyee;</span><br><span class="line">-- 删除表</span><br><span class="line">drop table empoyee;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h3><p>DML英文全称是Data Manipulation Language(数据操作语言)，用来对数据库中表的数据记录进行增、删、改操作。</p>
+<ul>
+<li><p>添加数据（INSERT）</p>
+</li>
+<li><p>修改数据（UPDATE）</p>
+</li>
+<li><p>删除数据（DELETE）</p>
+</li>
+</ul>
+<h4 id="DML-insert"><a href="#DML-insert" class="headerlink" title="DML-insert"></a>DML-insert</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- DML : 插入数据 - insert</span><br><span class="line">-- 1. 为 emp 表的 username, password, name, gender, phone 字段插入值</span><br><span class="line">insert into emp(username,name,gender,phone) values (&#x27;liubei&#x27;,&#x27;刘备&#x27;,1,&#x27;13365778911&#x27;);</span><br><span class="line"></span><br><span class="line">-- 2. 为 emp 表的 所有字段插入值</span><br><span class="line">-- 方式一：</span><br><span class="line">insert into emp(id, username, name, gender, phone, job, salary, image, entry_date, create_time, update_time) values</span><br><span class="line">            (null,&#x27;zhangfei&#x27;,&#x27;张飞&#x27;,1,13365778912,2,5000,&#x27;1.jpg&#x27;,&#x27;2025-08-05&#x27;,now(),now());</span><br><span class="line">-- 方式二：</span><br><span class="line">insert into emp values</span><br><span class="line">            (null,&#x27;guanyv&#x27;,&#x27;关羽&#x27;,1,13365778913,2,5000,&#x27;1.jpg&#x27;,&#x27;2025-08-05&#x27;,now(),now());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-- 3. 批量为 emp 表的 username, password, name, gender, phone  字段插入数据</span><br><span class="line">insert into emp(username,name,gender,phone) values (&#x27;zhaoyv&#x27;,&#x27;赵云&#x27;,1,&#x27;13365778914&#x27;),</span><br><span class="line">                                                   (&#x27;zhugeliang&#x27;,&#x27;诸葛亮&#x27;,1,&#x27;13365778915&#x27;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>注意：</strong></p>
+<p>1.插入数据时，指定的字段顺序需要与值的顺序是一 一对应的 。</p>
+<p>2.字符串和日期型数据应该包含在引号中（单引号、双引号都可以）。</p>
+<p>3.插入的数据大小&#x2F;长度，应该在字段的规定范围内 。</p>
+<h4 id="DML-update"><a href="#DML-update" class="headerlink" title="DML-update"></a>DML-update</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- DML : 更新数据 - update</span><br><span class="line">-- 1. 将 emp 表的ID为1员工 用户名更新为 &#x27;zhangsan&#x27;, 姓名name字段更新为 &#x27;张三&#x27;</span><br><span class="line">update emp set username = &#x27;zhangsan&#x27;,name = &#x27;张三&#x27; where id = 1;</span><br><span class="line"></span><br><span class="line">-- 2. 将 emp 表的所有员工的入职日期更新为 &#x27;2010-01-01&#x27;</span><br><span class="line">update emp set entry_date = &#x27;2010-01-01&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<p>修改语句的条件可以有，也可以没有，如果没有条件，则会修改整张表的所有数据。</p>
+<h4 id="DML-delete"><a href="#DML-delete" class="headerlink" title="DML-delete"></a><strong>DML-delete</strong></h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- DML : 删除数据 - delete</span><br><span class="line">-- 1. 删除 emp 表中 ID为1的员工</span><br><span class="line">delete from emp where id  = 1;</span><br><span class="line"></span><br><span class="line">-- 2. 删除 emp 表中的所有员工</span><br><span class="line">delete from emp;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<p>1.DELETE 语句的条件可以有，也可以没有，如果没有条件，则会删除整张表的所有数据。</p>
+<p>2.DELETE 语句不能删除某一个字段的值(如果要操作，可以使用UPDATE，将该字段的值置为NULL)。</p>
+<h3 id="DQL"><a href="#DQL" class="headerlink" title="DQL"></a>DQL</h3><p>DQL英文全称是Data Query Language(数据查询语言)，用来查询数据库表中的记录。</p>
+<p>关键字：SELECT</p>
+<p><img src="https://pic1.imgdb.cn/item/68a59feb58cb8da5c83e3ac0.png" alt="218"></p>
+<ul>
+<li>基本查询（select…from…）</li>
+<li>条件查询（where）</li>
+<li>分组查询（group by）</li>
+<li>排序查询（order by）</li>
+<li>分页查询（limit）</li>
+</ul>
+<h4 id="DQL-基本查询"><a href="#DQL-基本查询" class="headerlink" title="DQL-基本查询"></a>DQL-基本查询</h4><p>基础语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 查询多个字段</span><br><span class="line">select 字段1,字段2,字段3 from 表名;</span><br><span class="line">-- 查询所有字段(通配符)</span><br><span class="line">select * from 表名;</span><br><span class="line">-- 为查询字段设置别名，as关键字可以省略</span><br><span class="line">select 字段1 [as 别名1], 字段2 [as 别名2] from 表名;</span><br><span class="line">-- 去除重复记录</span><br><span class="line">select distinct 字段列表 from 表名;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<p>* 号代表查询所有字段，在实际开发中尽量少用（不直观、影响效率）</p>
+<p><strong>小结</strong></p>
+<p>1.基本查询语法? </p>
+<p>select 字段列表 from 表名</p>
+<p>2.如何为查询返回的字段设置别名?</p>
+<p>字段名 [as] 别名</p>
+<p>3.如何去除查询返回的重复记录?</p>
+<p>distinct</p>
+<h4 id="DQL-条件查询"><a href="#DQL-条件查询" class="headerlink" title="**DQL-**条件查询"></a>**DQL-**条件查询</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 条件查询</span><br><span class="line">select 字段列表 from 表名 where 条件列表 ;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pic1.imgdb.cn/item/68a5a02458cb8da5c83e3dc7.png" alt="219"></p>
+<p><strong>小结：</strong></p>
+<p>1.如何进行null值的判断?</p>
+<p>​	is null , is not null</p>
+<p>2.模糊匹配中的通配符?</p>
+<p>​	% (任意个字符), _(一个字符)</p>
+<p>3.如何组装多个查询条件?</p>
+<p>​	and &#x2F; or</p>
+<h4 id="DQL-分组查询"><a href="#DQL-分组查询" class="headerlink" title="**DQL-**分组查询"></a>**DQL-**分组查询</h4><p><img src="https://pic1.imgdb.cn/item/68a5a04e58cb8da5c83e4005.png" alt="219"></p>
+<p>聚合函数：将一列数据作为一个整体，进行纵向计算。</p>
+<p><img src="https://pic1.imgdb.cn/item/68a5a06d58cb8da5c83e41a7.png" alt="220"></p>
+<p>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 分组查询</span><br><span class="line">select 字段列表 from 表名 [where 条件列表] group by 分组字段名 [having 分组后过滤条件];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>注意：</strong></p>
+<p>1.null值不参与所有聚合函数的运算 。</p>
+<p>2.统计数量可以使用：count(<em>) count(字段) count(常量)，推荐使用count(</em>) 。</p>
+<p>where与having的区别：</p>
+<p>1.执行时机不同：where是分组之前进行过滤，不满足where条件，不参与分组；而having是分组之后对结果进行过滤。</p>
+<p>2.判断条件不同：where不能对聚合函数进行判断，而having可以。</p>
+<p>注意：</p>
+<p>1.分组之后，查询的字段一般为聚合函数和分组字段，查询其他字段无任何意义。</p>
+<p>2.执行顺序: where &gt; 聚合函数 &gt; having 。</p>
+<p><strong>小结：</strong></p>
+<p>1.DQL语句中where与having的区别？</p>
+<p>•执行时机不同（where -&gt; group by -&gt; having）</p>
+<p>•判断条件不同（having后可以用聚合函数，where不可以）</p>
+<h4 id="DQL-排序查询"><a href="#DQL-排序查询" class="headerlink" title="**DQL-**排序查询"></a>**DQL-**排序查询</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 排序查询</span><br><span class="line">select 字段列表 from 表名 [where 条件列表] [group by 分组字段名 having 分组后过滤条件] order by 排序字段 排序方式;</span><br></pre></td></tr></table></figure>
+
+<p>排序方式：升序（asc），降序（desc）；默认为升序asc，是可以不写的。</p>
+<p>注意：如果是多字段排序，当第一个字段值相同时，才会根据第二个字段进行排序。</p>
+<p><strong>小结：</strong></p>
+<p>1.下面排序查询的语法分别代表什么意思?</p>
+<p>… order by age;</p>
+<p>… order by age desc, score asc;</p>
+<p>… order by age, score, update_time desc;</p>
+<h4 id="DQL-分页查询"><a href="#DQL-分页查询" class="headerlink" title="**DQL-**分页查询"></a>**DQL-**分页查询</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 排序查询</span><br><span class="line">select 字段 from 表名 [where 条件] [group by 分组字段 having 过滤条件] [order by 排序字段] limit 起始索引,查询记录数;</span><br></pre></td></tr></table></figure>
+
+<p><strong>说明：</strong></p>
+<p>1.起始索引从0开始 。</p>
+<p>2.分页查询是数据库的方言，不同的数据库有不同的实现，MySQL中是LIMIT 。</p>
+<p>3.如果起始索引为0，起始索引可以省略，直接简写为 limit 10 。</p>
+<p><strong>小结：</strong></p>
+<p>1.DQL语句中的分页查询</p>
+<p>•语法：limit 起始索引,每页展示记录数</p>
+<p>•注意：项目开发中，前端传递过来的是页码，需要转换为起始索引</p>
+<p>•公式：（页码-1）* 每页展示记录数</p>
+<h4 id="DQL综合案例"><a href="#DQL综合案例" class="headerlink" title="DQL综合案例"></a>DQL综合案例</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 准备测试数据</span><br><span class="line">INSERT INTO emp(id, username, password, name, gender, phone, job, salary, image, entry_date, create_time, update_time)</span><br><span class="line">VALUES (1,&#x27;shinaian&#x27;,&#x27;123456&#x27;,&#x27;施耐庵&#x27;,1,&#x27;13309090001&#x27;,4,15000,&#x27;1.jpg&#x27;,&#x27;2000-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:35&#x27;),</span><br><span class="line">     (2,&#x27;songjiang&#x27;,&#x27;123456&#x27;,&#x27;宋江&#x27;,1,&#x27;13309090002&#x27;,2,8600,&#x27;2.jpg&#x27;,&#x27;2015-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:37&#x27;),</span><br><span class="line">     (3,&#x27;lujunyi&#x27;,&#x27;123456&#x27;,&#x27;卢俊义&#x27;,1,&#x27;13309090003&#x27;,2,8900,&#x27;3.jpg&#x27;,&#x27;2008-05-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:39&#x27;),</span><br><span class="line">     (4,&#x27;wuyong&#x27;,&#x27;123456&#x27;,&#x27;吴用&#x27;,1,&#x27;13309090004&#x27;,2,9200,&#x27;4.jpg&#x27;,&#x27;2007-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:41&#x27;),</span><br><span class="line">     (5,&#x27;gongsunsheng&#x27;,&#x27;123456&#x27;,&#x27;公孙胜&#x27;,1,&#x27;13309090005&#x27;,2,9500,&#x27;5.jpg&#x27;,&#x27;2012-12-05&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:43&#x27;),</span><br><span class="line">     (6,&#x27;huosanniang&#x27;,&#x27;123456&#x27;,&#x27;扈三娘&#x27;,2,&#x27;13309090006&#x27;,3,6500,&#x27;6.jpg&#x27;,&#x27;2013-09-05&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:45&#x27;),</span><br><span class="line">     (7,&#x27;chaijin&#x27;,&#x27;123456&#x27;,&#x27;柴进&#x27;,1,&#x27;13309090007&#x27;,1,4700,&#x27;7.jpg&#x27;,&#x27;2005-08-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:47&#x27;),</span><br><span class="line">     (8,&#x27;likui&#x27;,&#x27;123456&#x27;,&#x27;李逵&#x27;,1,&#x27;13309090008&#x27;,1,4800,&#x27;8.jpg&#x27;,&#x27;2014-11-09&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:49&#x27;),</span><br><span class="line">     (9,&#x27;wusong&#x27;,&#x27;123456&#x27;,&#x27;武松&#x27;,1,&#x27;13309090009&#x27;,1,4900,&#x27;9.jpg&#x27;,&#x27;2011-03-11&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:51&#x27;),</span><br><span class="line">     (10,&#x27;lichong&#x27;,&#x27;123456&#x27;,&#x27;林冲&#x27;,1,&#x27;13309090010&#x27;,1,5000,&#x27;10.jpg&#x27;,&#x27;2013-09-05&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:53&#x27;),</span><br><span class="line">     (11,&#x27;huyanzhuo&#x27;,&#x27;123456&#x27;,&#x27;呼延灼&#x27;,1,&#x27;13309090011&#x27;,2,9700,&#x27;11.jpg&#x27;,&#x27;2007-02-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:55&#x27;),</span><br><span class="line">     (12,&#x27;xiaoliguang&#x27;,&#x27;123456&#x27;,&#x27;小李广&#x27;,1,&#x27;13309090012&#x27;,2,10000,&#x27;12.jpg&#x27;,&#x27;2008-08-18&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:57&#x27;),</span><br><span class="line">     (13,&#x27;yangzhi&#x27;,&#x27;123456&#x27;,&#x27;杨志&#x27;,1,&#x27;13309090013&#x27;,1,5300,&#x27;13.jpg&#x27;,&#x27;2012-11-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:35:59&#x27;),</span><br><span class="line">     (14,&#x27;shijin&#x27;,&#x27;123456&#x27;,&#x27;史进&#x27;,1,&#x27;13309090014&#x27;,2,10600,&#x27;14.jpg&#x27;,&#x27;2002-08-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:01&#x27;),</span><br><span class="line">     (15,&#x27;sunerniang&#x27;,&#x27;123456&#x27;,&#x27;孙二娘&#x27;,2,&#x27;13309090015&#x27;,2,10900,&#x27;15.jpg&#x27;,&#x27;2011-05-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:03&#x27;),</span><br><span class="line">     (16,&#x27;luzhishen&#x27;,&#x27;123456&#x27;,&#x27;鲁智深&#x27;,1,&#x27;13309090016&#x27;,2,9600,&#x27;16.jpg&#x27;,&#x27;2010-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:05&#x27;),</span><br><span class="line">     (17,&#x27;liying&#x27;,&#x27;12345678&#x27;,&#x27;李应&#x27;,1,&#x27;13309090017&#x27;,1,5800,&#x27;17.jpg&#x27;,&#x27;2015-03-21&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:07&#x27;),</span><br><span class="line">     (18,&#x27;shiqian&#x27;,&#x27;123456&#x27;,&#x27;时迁&#x27;,1,&#x27;13309090018&#x27;,2,10200,&#x27;18.jpg&#x27;,&#x27;2015-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:09&#x27;),</span><br><span class="line">     (19,&#x27;gudasao&#x27;,&#x27;123456&#x27;,&#x27;顾大嫂&#x27;,2,&#x27;13309090019&#x27;,2,10500,&#x27;19.jpg&#x27;,&#x27;2008-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:11&#x27;),</span><br><span class="line">     (20,&#x27;ruanxiaoer&#x27;,&#x27;123456&#x27;,&#x27;阮小二&#x27;,1,&#x27;13309090020&#x27;,2,10800,&#x27;20.jpg&#x27;,&#x27;2018-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:13&#x27;),</span><br><span class="line">     (21,&#x27;ruanxiaowu&#x27;,&#x27;123456&#x27;,&#x27;阮小五&#x27;,1,&#x27;13309090021&#x27;,5,5200,&#x27;21.jpg&#x27;,&#x27;2015-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:15&#x27;),</span><br><span class="line">     (22,&#x27;ruanxiaoqi&#x27;,&#x27;123456&#x27;,&#x27;阮小七&#x27;,1,&#x27;13309090022&#x27;,5,5500,&#x27;22.jpg&#x27;,&#x27;2016-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:17&#x27;),</span><br><span class="line">     (23,&#x27;ruanji&#x27;,&#x27;123456&#x27;,&#x27;阮籍&#x27;,1,&#x27;13309090023&#x27;,5,5800,&#x27;23.jpg&#x27;,&#x27;2012-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:19&#x27;),</span><br><span class="line">     (24,&#x27;tongwei&#x27;,&#x27;123456&#x27;,&#x27;童威&#x27;,1,&#x27;13309090024&#x27;,5,5000,&#x27;24.jpg&#x27;,&#x27;2006-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:21&#x27;),</span><br><span class="line">     (25,&#x27;tongmeng&#x27;,&#x27;123456&#x27;,&#x27;童猛&#x27;,1,&#x27;13309090025&#x27;,5,4800,&#x27;25.jpg&#x27;,&#x27;2002-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:23&#x27;),</span><br><span class="line">     (26,&#x27;yanshun&#x27;,&#x27;123456&#x27;,&#x27;燕顺&#x27;,1,&#x27;13309090026&#x27;,5,5400,&#x27;26.jpg&#x27;,&#x27;2011-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:25&#x27;),</span><br><span class="line">     (27,&#x27;lijun&#x27;,&#x27;123456&#x27;,&#x27;李俊&#x27;,1,&#x27;13309090027&#x27;,5,6600,&#x27;27.jpg&#x27;,&#x27;2004-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:27&#x27;),</span><br><span class="line">     (28,&#x27;lizhong&#x27;,&#x27;123456&#x27;,&#x27;李忠&#x27;,1,&#x27;13309090028&#x27;,5,5000,&#x27;28.jpg&#x27;,&#x27;2007-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:29&#x27;),</span><br><span class="line">     (29,&#x27;songqing&#x27;,&#x27;123456&#x27;,&#x27;宋清&#x27;,1,&#x27;13309090029&#x27;,5,5100,&#x27;29.jpg&#x27;,&#x27;2020-01-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:31&#x27;),</span><br><span class="line">     (30,&#x27;liyun&#x27;,&#x27;123456&#x27;,&#x27;李云&#x27;,1,&#x27;13309090030&#x27;,NULL,NULL,&#x27;30.jpg&#x27;,&#x27;2020-03-01&#x27;,&#x27;2024-04-11 16:35:33&#x27;,&#x27;2024-04-11 16:36:31&#x27;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">--  =================== DQL: 基本查询 ======================</span><br><span class="line">-- 1. 查询指定字段 name,entry_date 并返回</span><br><span class="line">select emp.name,emp.entry_date from emp;</span><br><span class="line"></span><br><span class="line">-- 2. 查询返回所有字段</span><br><span class="line"></span><br><span class="line">-- 方式一(推荐)</span><br><span class="line">    select id, username, password, name, gender, phone, job, salary, image, entry_date, create_time, update_time from emp;</span><br><span class="line">-- 方式二(不推荐)</span><br><span class="line">    select * from emp;</span><br><span class="line"></span><br><span class="line">-- 3. 查询所有员工的 name,entry_date, 并起别名(姓名、入职日期)</span><br><span class="line">select emp.name as &#x27;姓名&#x27;, emp.entry_date as &#x27;入职日期&#x27; from emp;</span><br><span class="line"></span><br><span class="line">select emp.name  &#x27;姓名&#x27;, emp.entry_date  &#x27;入职日期&#x27; from emp;</span><br><span class="line">-- 4. 查询已有的员工关联了哪几种职位(不要重复)</span><br><span class="line">select distinct emp.job from emp;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">--  =================== DQL: 条件查询 ======================</span><br><span class="line">-- 1. 查询 姓名 为 柴进 的员工</span><br><span class="line">select * from emp where name = &#x27;柴进&#x27;;</span><br><span class="line"></span><br><span class="line">-- 2. 查询 薪资小于等于5000 的员工信息</span><br><span class="line">select * from emp where salary &lt;= 5000;</span><br><span class="line"></span><br><span class="line">-- 3. 查询 没有分配职位 的员工信息</span><br><span class="line">select * from emp where job is null ;</span><br><span class="line"></span><br><span class="line">-- 4. 查询 有职位 的员工信息</span><br><span class="line">select * from emp where job is not null;</span><br><span class="line"></span><br><span class="line">-- 5. 查询 密码不等于 &#x27;123456&#x27; 的员工信息</span><br><span class="line">select * from emp where password != &#x27;123456&#x27;;</span><br><span class="line"></span><br><span class="line">select * from emp where password &lt;&gt; &#x27;123456&#x27;;</span><br><span class="line"></span><br><span class="line">-- 6. 查询 入职日期 在 &#x27;2000-01-01&#x27; (包含) 到 &#x27;2010-01-01&#x27;(包含) 之间的员工信息</span><br><span class="line">select * from emp where entry_date between &#x27;2000-01-01&#x27; and  &#x27;2010-01-01&#x27;;</span><br><span class="line"></span><br><span class="line">-- 7. 查询 入职时间 在 &#x27;2000-01-01&#x27; (包含) 到 &#x27;2010-01-01&#x27;(包含) 之间 且 性别为女 的员工信息</span><br><span class="line">select * from emp where entry_date between &#x27;2000-01-01&#x27; and  &#x27;2010-01-01&#x27; and gender = 2;</span><br><span class="line"></span><br><span class="line">-- 8. 查询 职位是 2 (讲师), 3 (学工主管), 4 (教研主管) 的员工信息</span><br><span class="line">select * from emp where job = 2 or job=3 or job=4;</span><br><span class="line"></span><br><span class="line">select * from emp where job in(2,3,4);</span><br><span class="line">-- 9. 查询 姓名 为两个字的员工信息</span><br><span class="line">select * from emp where name like &#x27;__&#x27;;</span><br><span class="line"></span><br><span class="line">-- 10. 查询 姓 &#x27;李&#x27; 的员工信息</span><br><span class="line">select * from emp where name like &#x27;李%&#x27;;</span><br><span class="line"></span><br><span class="line">-- 11. 查询 姓名中包含 &#x27;二&#x27; 的员工信息</span><br><span class="line">select * from emp where name like &#x27;%二%&#x27;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">--  =================== DQL: 分组查询 ======================</span><br><span class="line">-- 聚合函数</span><br><span class="line">-- 注意：所有的聚合函数不参与null值的计算</span><br><span class="line"></span><br><span class="line">-- 1. 统计该企业员工数量</span><br><span class="line">-- count(字段)</span><br><span class="line">select count(name) from emp;</span><br><span class="line">-- count(*) 推荐</span><br><span class="line">select count(*) from emp;</span><br><span class="line">-- count(常量) 推荐</span><br><span class="line">select count(1) from emp;</span><br><span class="line">-- 2. 统计该企业员工的平均薪资</span><br><span class="line">select avg(emp.salary) from emp;</span><br><span class="line"></span><br><span class="line">-- 3. 统计该企业员工的最低薪资</span><br><span class="line">select min(emp.salary) from emp;</span><br><span class="line"></span><br><span class="line">-- 4. 统计该企业员工的最高薪资</span><br><span class="line">select max(emp.salary) from emp;</span><br><span class="line"></span><br><span class="line">-- 5. 统计该企业每月要给员工发放的薪资总额(薪资之和)</span><br><span class="line">select sum(emp.salary) from emp;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 分组</span><br><span class="line">-- 注意：分组之后，select后的字段列表不能随意书写，能写的一般是 分组字段+聚合函数</span><br><span class="line"></span><br><span class="line">-- 1. 根据性别分组 , 统计男性和女性员工的数量</span><br><span class="line">select emp.gender,count(*) from emp group by gender;</span><br><span class="line"></span><br><span class="line">-- 2. 先查询入职时间在 &#x27;2015-01-01&#x27; (包含) 以前的员工 , 并对结果根据职位分组 , 获取员工数量大于等于2的职位</span><br><span class="line">select emp.job,count(*) from emp where entry_date &lt;= &#x27;2015-01-01&#x27; group by job having count(*) &gt;= 2;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">--  =================== 排序查询 ======================</span><br><span class="line">-- 1. 根据入职时间, 对员工进行升序排序</span><br><span class="line">select * from emp order by entry_date asc ;</span><br><span class="line"></span><br><span class="line">-- 2. 根据入职时间, 对员工进行降序排序</span><br><span class="line">select * from emp order by entry_date desc ;</span><br><span class="line"></span><br><span class="line">-- 3. 根据 入职时间 对公司的员工进行 升序排序 ， 入职时间相同 , 再按照 更新时间 进行降序排序</span><br><span class="line">select * from emp order by entry_date asc , update_time desc ;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">--  =================== 分页查询 ======================</span><br><span class="line">-- 1. 从起始索引0开始查询员工数据, 每页展示5条记录</span><br><span class="line">select * from emp limit 0,5;</span><br><span class="line"></span><br><span class="line">-- 2. 查询 第1页 员工数据, 每页展示5条记录</span><br><span class="line">select * from emp limit 0,5;</span><br><span class="line"></span><br><span class="line">-- 3. 查询 第2页 员工数据, 每页展示5条记录</span><br><span class="line">select * from emp limit 5,5;</span><br><span class="line"></span><br><span class="line">-- 4. 查询 第3页 员工数据, 每页展示5条记录</span><br><span class="line">select * from emp limit 10,5;</span><br><span class="line"></span><br><span class="line">-- 页码</span><br><span class="line">-- 起始索引 = (页码-1)*每页展示的记录数</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="莫道桑榆晚，红霞霜满天"><a href="#莫道桑榆晚，红霞霜满天" class="headerlink" title="莫道桑榆晚，红霞霜满天!"></a><strong>莫道桑榆晚，红霞霜满天!</strong></h2><!--more-->
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>用hexo+github搭建个人博客</title>
     <url>/2025/06/09/%E7%94%A8hexo-github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<p>​	自己淋过雨就要为别人打伞，我也是才学会搭建个人博客之前看了很多视频，查了很多资料感觉总是差那么一点意思，在搭建的过程<br>中，自己也吃过很多亏，经过多次尝试，一路摸爬滚打过来才终于建起了自己的第一个个人博客；<br>​	以下的内容希望会给大家带来帮助：</p>
